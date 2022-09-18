@@ -1,0 +1,272 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "",
+  "additionalProperties": false,
+  "properties": {
+    "pageInfo": {
+      "type": "object",
+      "description": "Basic meta data like title, description, nav bar links, footer text.",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Your dashboard title, displayed in the header and browser tab."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of your dashboard, also displayed as a subtitle."
+        },
+        "navLinks": {
+          "type": "array",
+          "description": "Optional list of a maximum of 6 links, which will be displayed in the navigation bar.",
+          "items": {
+            "type": "object",
+            "description": "Navigation link",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "The text to display on the link button"
+              },
+              "path": {
+                "type": "string",
+                "description": "The URL to navigate to when clicked. Can be relative (e.g /about) or absolute (e.g. https://example.com or http://192.1268.1.1)."
+              },
+              "target": {
+                "type": "string",
+                "description": "The opening method (external links only). Can be either `newtab`, `sametab`, `top` or `parent`. Defaults to `newtab`",
+                "markdownDescription": "The opening method (external links only). Can be either `newtab`, `sametab`, `top` or `parent`. Defaults to `newtab`",
+                "enum": ["newtab", "sametab", "top", "parent"]
+              }
+            },
+            "required": ["title", "path"]
+          }
+        },
+        "footerText": {
+          "type": "string",
+          "description": "Text to display in the footer (note that this will override the default footer content). This can also include HTML and inline CSS"
+        },
+        "logo": {
+          "type": "string"
+        }
+      },
+      "required": ["title"]
+    },
+    "appConfig": {
+      "type": "object",
+      "description": "Settings related to how the app functions, including API keys and global styles",
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "The 2 (or 4-digit) ISO 639-1 code for your language, e.g. en or en-GB. This must be a language that the app has already been translated into. If your language is unavailable, Dashy will fallback to English. By default Dashy will attempt to auto-detect your language, although this may not work on some privacy browsers."
+        },
+        "startingView": {
+          "type": "string",
+          "description": "Which page to load by default, and on the base page or domain root. You can still switch to different views from within the UI. Can be either `default`, `minimal` or `workspace`. Defaults to `default`",
+          "markdownDescription": "Which page to load by default, and on the base page or domain root. You can still switch to different views from within the UI. Can be either `default`, `minimal` or `workspace`. Defaults to `default`",
+          "enum": ["default", "minimal", "workspace"],
+          "default": "default"
+        },
+        "defaultOpeningMethod": {
+          "type": "string",
+          "description": "The default opening method for items, if no `target` is specified for a given item. Can be either newtab, `sametab`, `modal`, work`space, `clipboard`, `top` or `parent`. Defaults to `newtab`",
+          "markdownDescription": "The default opening method for items, if no `target` is specified for a given item. Can be either newtab, `sametab`, `modal`, work`space, `clipboard`, `top` or `parent`. Defaults to `newtab`",
+          "enum": [
+            "newtab",
+            "sametab",
+            "modal",
+            "workspace",
+            "clipboard",
+            "top",
+            "parent"
+          ],
+          "default": "newtab"
+        },
+        "statusCheck": {
+          "type": "boolean",
+          "description": "When set to `true`, Dashy will ping each of your services and display their status as a dot next to each item. This can be overridden by setting `statusCheck` under each item. Defaults to `false`",
+          "default": true
+        },
+        "statusCheckInterval": {},
+        "webSearch": {},
+        "backgroundImg": {},
+        "enableFontAwesome": {},
+        "enableMaterialDesignIcons": {},
+        "fontAwesomeKey": {},
+        "faviconApi": {},
+        "auth": {
+          "type": "object",
+          "description": "All settings relating to user authentication.",
+          "properties": {
+            "users": {
+              "type": "array",
+              "description": "An array of objects containing usernames and hashed passwords. If this is not provided, then authentication will be off by default, and you will not need any credentials to access the app.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "string",
+                    "description": "Username to log in with."
+                  },
+                  "hash": {
+                    "type": "string",
+                    "description": "A SHA-256 hashed password"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "The user type, either `admin` or `normal`",
+                    "markdownDescription": "The user type, either `admin` or `normal`",
+                    "enum": ["admin", "normal"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "layout": {},
+        "iconSize": {},
+        "colCount": {},
+        "theme": {},
+        "cssThemes": {},
+        "customColors:": {},
+        "externalStyleSheet": {},
+        "customCss": {},
+        "hideComponents": {},
+        "routingMode": {},
+        "enableMultiTasking": {},
+        "workspaceLandingUrl": {},
+        "preventWriteToDisk": {},
+        "preventLocalSave": {},
+        "disableConfiguration": {},
+        "widgetsAlwaysUseProxy": {},
+        "showSplashScreen": {},
+        "enableErrorReporting": {},
+        "sentryDsn": {},
+        "disableSmartSort": {},
+        "disableUpdateChecks": {},
+        "enableServiceWorker": {},
+        "disableContextMenu": {}
+      }
+    },
+    "sections": {
+      "type": "array",
+      "description": "An array of sections, each containing an array of items, which will be displayed as links.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The title for the section"
+          },
+          "icon": {
+            "type": "string",
+            "description": "A single icon to be displayed next to the title"
+          },
+          "items": {
+            "type": "array",
+            "description": "An array of items to be displayed within the section. Sections must include either 1 or more items, or 1 or more widgets.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "The text to display/ title of a given item.",
+                  "maxLength": 18
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Additional info about an item, which is shown in the tooltip on hover, or visible on large tiles."
+                },
+                "url": {
+                  "type": "string",
+                  "description": "The URL/Location of web address for when the item is clicked."
+                },
+                "icon": {
+                  "type": "string",
+                  "description": "The icon for a given item. Can be a font-awesome icon"
+                },
+                "target": {
+                  "type": "string",
+                  "description": "The opening method for when the item is clicked, either `newtab`, `sametab`, `modal`, `workspace`, `clipboard`, `top` or `parent`. Where `newtab` will open the link in a new tab, `sametab` will open it in the current tab, `modal` will open a pop-up modal, `workspace` will open in the Workspace view and `clipboard` will copy the URL to system clipboard (but not launch app). Defaults to `newtab`",
+                  "markdownDescription": "The opening method for when the item is clicked, either `newtab`, `sametab`, `modal`, `workspace`, `clipboard`, `top` or `parent`. Where `newtab` will open the link in a new tab, `sametab` will open it in the current tab, `modal` will open a pop-up modal, `workspace` will open in the Workspace view and `clipboard` will copy the URL to system clipboard (but not launch app). Defaults to `newtab`",
+                  "enum": [
+                    "newtab",
+                    "sametab",
+                    "modal",
+                    "workspace",
+                    "clipboard",
+                    "top",
+                    "parent"
+                  ],
+                  "default": "newtab"
+                },
+                "hotkey": {
+                  "type": "integer",
+                  "description": "Give frequently opened applications a numeric hotkey, between `0 - 9`. You can then just press that key to launch that application.",
+                  "markdownDescription": "Give frequently opened applications a numeric hotkey, between `0 - 9`. You can then just press that key to launch that application.",
+                  "minimum": 0,
+                  "maximum": 9
+                },
+                "tags": {
+                  "type": "array",
+                  "description": "A list of tags, which can be used for improved search",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "statusCheck": {
+                  "type": "boolean",
+                  "description": "When set to `true`, Dashy will ping the URL associated with the current service, and display its status as a dot next to the item. The value here will override `appConfig.statusCheck` so you can turn off or on checks for a given service. Defaults to `appConfig.statusCheck`, falls back to `false`",
+                  "default": false
+                },
+                "statusCheckUrl": {
+                  "type": "string",
+                  "description": "If you've enabled `statusCheck`, and want to use a different URL to what is defined under the item, then specify it here."
+                },
+                "statusCheckHeaders": {
+                  "type": "object",
+                  "description": "If you're endpoint requires any specific headers for the status checking, then define them here."
+                },
+                "statusCheckAllowInsecure": {},
+                "statusCheckAcceptCodes": {},
+                "statusCheckMaxRedirects": {},
+                "color": {},
+                "backgroundColor": {},
+                "provider": {},
+                "displayData": {}
+              },
+              "required": ["title", "url"]
+            }
+          },
+          "widgets": {
+            "type": "array",
+            "description": "An array of widgets to be displayed within the section."
+          },
+          "displayedData": {
+            "type": "object",
+            "description": "Meta-data to optionally override display settings for a given section."
+          }
+        },
+        "required": ["name"]
+      }
+    },
+    "pages": {
+      "type": "array",
+      "description": "An array of additional config files, used for multi-page dashboards.",
+      "items": {
+        "type": "object",
+        "description": "Page definition.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "A unique name for that page."
+          },
+          "path": {
+            "type": "string",
+            "description": "The path (local or remote) to the config file to use. For files located within /public, you only need to specify the filename, for externally hosted files you must include the full URL"
+          }
+        },
+        "required": ["name", "path"]
+      }
+    }
+  },
+  "required": ["pageInfo", "sections"]
+}
