@@ -118,6 +118,39 @@
                   }
                 }
               }
+            },
+            "enableKeycloack": {
+              "type": "boolean",
+              "description": "If set to `true`, then authentication using Keycloak will be anabled. Note that you need to have an instance running, and have also configured `auth.keycloak`. Defaults to `false`",
+              "default": false
+            },
+            "keycloak": {
+              "type": "object",
+              "description": "Config options to point Dashy to your Keycloak server. Requires `enableKeycloak: true`",
+              "properties": {
+                "serverUrl": {
+                  "type": "string",
+                  "description": "The URL (or URL/ IP + Port) where your keycloak server is running"
+                },
+                "realm": {
+                  "type": "string",
+                  "description": "The name of the realm (must already be created) that you want to use."
+                },
+                "clientId": {
+                  "type": "string",
+                  "description": "The Client ID of the client you created for use with Dashy."
+                },
+                "legacySupport": {
+                  "type": "boolean",
+                  "description": "If using Keycloak 17 or older, then set this to `true`."
+                }
+              },
+              "required": ["serverUrl", "realm", "clientId"]
+            },
+            "enableGuestAccess": {
+              "type": "boolean",
+              "description": "When set to `true`, an unauthenticated user will be able to access the dashboard, with read-only access, without having to login. Requires `auth.users` to be configured. Defaults to `false`.",
+              "default": false
             }
           }
         },
